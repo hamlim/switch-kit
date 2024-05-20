@@ -1,7 +1,12 @@
 {
-	"name": "pkg-a",
+	"name": "switch-kit",
 	"version": "0.0.1",
 	"module": "index.ts",
+	"repository": {
+		"type": "git",
+		"directory": "packages/switch-kit",
+		"url": "https://github.com/hamlim/switch-kit"
+	},
 	"exports": {
 		".": {
 			"import": "./dist/index.js",
