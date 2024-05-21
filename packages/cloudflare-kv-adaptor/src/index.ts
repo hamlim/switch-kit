@@ -437,9 +437,11 @@ export class CloudflareKVAdaptor implements StorageAdaptor {
       }
       if (valueResult.status === "fulfilled" && !valueResult.value.ok) {
         try {
+          let errorResponse = await valueResult.value.json() as unknown as {
+            errors: Array<{ code: number; message: string }>;
+          };
           payload.errors.push(
-            ...(await valueResult.value.json() as unknown as { errors: Array<{ code: number; message: string }> })
-              ?.errors,
+            ...(errorResponse?.errors || []),
           );
         } catch (err) {
           // noop
@@ -448,9 +450,11 @@ export class CloudflareKVAdaptor implements StorageAdaptor {
 
       if (metadataResult.status === "fulfilled" && !metadataResult.value.ok) {
         try {
+          let errorResponse = await metadataResult.value.json() as unknown as {
+            errors: Array<{ code: number; message: string }>;
+          };
           payload.errors.push(
-            ...(await metadataResult.value.json() as unknown as { errors: Array<{ code: number; message: string }> })
-              ?.errors,
+            ...(errorResponse?.errors || []),
           );
         } catch (err) {
           // noop
@@ -498,7 +502,7 @@ export class CloudflareKVAdaptor implements StorageAdaptor {
         errors: [{ code: 0, message: "unknown" }],
       };
       try {
-        payload = await res.json() as any;
+        payload = await res.json() as unknown as { errors: Array<{ code: number; message: string }> };
       } catch (err) {
         // noop
       }

@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { SwitchKit } from "../index";
 
 class TestStorageAdaptor implements StorageAdaptor {
-  initialized: boolean = false;
+  initialized = false;
   currentValue: Record<string, Switch> = {
     key: {
       value: "value",

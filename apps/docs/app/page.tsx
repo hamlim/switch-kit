@@ -82,7 +82,7 @@ export default function Home() {
           </Tabs>
         </div>
         <P>
-          You'll also most likely want to install one of the pre-built <InlineCode>Storage Adaptors</InlineCode>:
+          You&apos;ll also most likely want to install one of the pre-built <InlineCode>Storage Adaptors</InlineCode>:
         </P>
         <UnorderedList>
           <li>

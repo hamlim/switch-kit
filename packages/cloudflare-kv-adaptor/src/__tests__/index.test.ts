@@ -44,7 +44,7 @@ describe("CloudflareKV", () => {
       "https://api.cloudflare.com/client/v4/accounts/account-id/storage/kv/namespaces?direction=asc&order=title&page=1&per_page=10",
     );
     // @ts-expect-error - it doesn't know that keys returns an iterable in all cases
-    expect([...requests[0].init?.headers?.keys()]).toMatchObject(["authorization", "content-type"]);
+    expect([...(requests[0].init?.headers?.keys() || [])]).toMatchObject(["authorization", "content-type"]);
   });
 
   test("client.createNamespace", async () => {
