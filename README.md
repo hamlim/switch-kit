@@ -1,16 +1,9 @@
-# Template monorepo
+# Switch Kit Monorepo
 
-This is a template repo in GitHub for creating a fresh monorepo for managing code and documentation.
-
-For more details on this setup, refer to my blog post here: https://matthamlin.me/2024/february/library-docs-monorepo-template
-
-## Getting Started:
-
-- Use this template (see `Use this Template` button near the top right corner of the page)
-- Clone the newly created repo
-- Run `bun install` (if you don't have bun installed locally, refer to their [docs](https://bun.sh))
-- Start writing some code!
+<p align="center">
+  <a href="https://switch-kit.vercel.app/">Docs</a> | <a href="https://npm.im/switch-kit">NPM</a> | <a href="./packages/switch-kit/README.md">Source</a>
+</p>
 
 ---
 
-Check out the [Guidebook](./GUIDEBOOK.md) for more details on how to use this repo setup!
+_Refer to the [Monorepo GUIDEBOOK.md](./GUIDEBOOK.md) for details about the repo setup and structure!_
