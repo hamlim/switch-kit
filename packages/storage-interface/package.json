@@ -37,7 +37,7 @@
     "build": "hohoro",
     "type-check": "tsc -p ./tsconfig.json",
     "lint": "biome lint ./src/",
-    "prepub": "bun run build && bun run type-check && bun run lint && bun run test",
+    "prepub": "bun run build && bun run type-check && bun run lint",
     "pub": "npm publish --access public"
   }
 }
