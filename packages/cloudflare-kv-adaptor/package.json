@@ -1,18 +1,17 @@
 {
   "name": "@switch-kit/cloudflare-kv-adaptor",
   "description": "A Cloudflare KV adaptor for SwitchKit",
-	"homepage": "TODO",
+	"homepage": "https://switch-kit.vercel.app/",
 	"author": {
-		"name": "TODO",
-		"email": "TODO"
+		"name": "Matt Hamlin",
+		"email": "matthewjameshamlin@gmail.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "TODO",
-		"directory": "packages/template-library"
+		"url": "https://github.com/hamlim/switch-kit",
+		"directory": "packages/cloudflare-kv-adaptor"
 	},
   "version": "0.1.0",
-  "module": "index.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -21,7 +20,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@switch-kit/storage-interface": "workspace:*"
+    "@switch-kit/storage-interface": "0.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
@@ -31,6 +30,9 @@
     "@types/bun": "1.1.2",
     "typescript": "5.4.5",
     "switch-kit": "workspace:*"
+  },
+  "peerDependencies": {
+    "@swc/helpers": "1.4.2"
   },
   "scripts": {
     "build": "hohoro",

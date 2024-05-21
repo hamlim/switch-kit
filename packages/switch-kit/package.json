@@ -1,11 +1,16 @@
 {
 	"name": "switch-kit",
 	"version": "0.1.0",
-	"module": "index.ts",
+	"description": "A \"build-your-own\" Feature Flagging/Toggling/Experimentation/etc system!",
+	"homepage": "https://switch-kit.vercel.app/",
+	"author": {
+		"name": "Matt Hamlin",
+		"email": "matthewjameshamlin@gmail.com"
+	},
 	"repository": {
 		"type": "git",
-		"directory": "packages/switch-kit",
-		"url": "https://github.com/hamlim/switch-kit"
+		"url": "https://github.com/hamlim/switch-kit",
+		"directory": "packages/switch-kit"
 	},
 	"exports": {
 		".": {
@@ -15,7 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@switch-kit/storage-interface": "workspace:*"
+		"@switch-kit/storage-interface": "0.1.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.6.3",
@@ -25,6 +30,9 @@
 		"@types/bun": "1.1.2",
 		"typescript": "5.4.5"
 	},
+	"peerDependencies": {
+    "@swc/helpers": "1.4.2"
+  },
 	"scripts": {
 		"build": "hohoro",
 		"type-check": "tsc -p ./tsconfig.json",
