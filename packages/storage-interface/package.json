@@ -1,7 +1,7 @@
 {
   "name": "@switch-kit/storage-interface",
   "description": "Switch Kit internal storage interfaces, useful for building adaptors for different storage providers",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "module": "index.ts",
   "exports": {
     ".": {
@@ -14,7 +14,7 @@
     "@biomejs/biome": "1.6.3",
     "@swc/cli": "0.3.10",
     "@swc/core": "1.4.2",
-    "hohoro": "0.1.1",
+    "hohoro": "0.1.2",
     "@types/bun": "1.1.2",
     "typescript": "5.4.5"
   },
@@ -22,7 +22,6 @@
     "build": "hohoro",
     "type-check": "tsc -p ./tsconfig.json",
     "lint": "biome lint ./src/",
-    "test": "bun test",
     "prepub": "bun run build && bun run type-check && bun run lint && bun run test",
     "pub": "npm publish --access public"
   }

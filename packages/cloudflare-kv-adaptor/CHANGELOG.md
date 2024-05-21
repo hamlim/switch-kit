@@ -1,5 +1,9 @@
 ### Unreleased:
 
-### [0.0.1] - March 3rd, 2024
+### [0.1.0] - May 21st, 2024
 
-- Build the library using SWC and TypeScript
+- Initial working release
+
+### [0.0.1] - May 21st, 2024
+
+- Initial release

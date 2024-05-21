@@ -20,8 +20,5 @@ export interface StorageAdaptor {
 }
 
 export interface Storage extends StorageAdaptor {
-  constructor(options: {
-    adaptor: StorageAdaptor;
-  }): Storage;
   clearCache(): void;
 }

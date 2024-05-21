@@ -1,11 +1,42 @@
 # `switch-kit`
 
-TODO
+A "build-your-own" Feature Flagging/Toggling/Experimentation/etc system!
 
 ## Getting Started:
 
-```bash
+```sh
 bun add switch-kit
+```
+
+You'll most likely also want to install one of the existing storage adapters, such as `@switch-kit/cloudflare-kv-adaptor`:
+
+```sh
+bun add @switch-kit/cloudflare-kv-adaptor
+```
+
+## Usage:
+
+```tsx
+// Create the SwitchKit client
+let switchKit = new SwitchKit({
+  // This example is using the CloudflareKVAdaptor
+  // However you can change this out for anything that implements the StorageAdaptor interface from `@switch-kit/storage-interface`
+  adaptor: new CloudflareKVAdaptor({
+    namespace: "my-switches",
+    authToken: process.env.CLOUDFLARE_AUTH_TOKEN,
+    accountID: process.env.CLOUDFLARE_ACCOUNT_ID,
+  }),
+});
+
+// Initialize the SwitchKit client
+await switchKit.init();
+
+// Returns either a Switch or undefined
+let switchA = await switchKit.get("switch-a");
+
+if (switchA?.value === "on") {
+  // do something
+}
 ```
 
 ## Contributing:
