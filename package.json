@@ -20,7 +20,7 @@
     "format": "dprint fmt",
     "format:check": "dprint check",
     "test": "turbo run test",
-    "generator": "bun ./scripts/generator.ts",
+    "generate": "bun ./scripts/generator.ts",
     "one-version:check": "one-version check"
   }
 }

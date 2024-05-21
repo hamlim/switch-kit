@@ -1,6 +1,6 @@
 {
 	"name": "switch-kit",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"module": "index.ts",
 	"repository": {
 		"type": "git",
@@ -14,11 +14,14 @@
 		}
 	},
 	"type": "module",
+	"dependencies": {
+		"@switch-kit/storage-interface": "workspace:*"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "1.6.3",
 		"@swc/cli": "0.3.10",
 		"@swc/core": "1.4.2",
-		"hohoro": "0.1.1",
+		"hohoro": "0.1.2",
 		"@types/bun": "1.1.2",
 		"typescript": "5.4.5"
 	},
