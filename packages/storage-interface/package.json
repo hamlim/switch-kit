@@ -1,6 +1,16 @@
 {
   "name": "@switch-kit/storage-interface",
   "description": "Switch Kit internal storage interfaces, useful for building adaptors for different storage providers",
+	"homepage": "https://switch-kit.vercel.app/",
+	"author": {
+		"name": "Matt Hamlin",
+		"email": "matthewjameshamlin@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hamlim/switch-kit",
+		"directory": "packages/storage-interface"
+	},
   "version": "0.1.0",
   "module": "index.ts",
   "exports": {
