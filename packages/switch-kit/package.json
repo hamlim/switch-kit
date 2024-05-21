@@ -18,6 +18,12 @@
 			"types": "./dist/index.d.ts"
 		}
 	},
+	"files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md",
+    "package.json"
+  ],
 	"type": "module",
 	"dependencies": {
 		"@switch-kit/storage-interface": "0.1.0"
