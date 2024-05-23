@@ -306,6 +306,17 @@ export class CloudflareKV {
   }
 }
 
+type ListNamespacesResponse = {
+  result: Array<{ id: string; title: string; supports_url_encoding: boolean }>;
+  result_info: {
+    page: number;
+    per_page: number;
+    count: number;
+    total_count: number;
+    total_pages: number;
+  };
+};
+
 // SECTION: CloudflareKVAdaptor
 export type CloudflareKVAdaptorOptions = {
   // the title of the namespace that is used to store the switches
@@ -354,10 +365,55 @@ export class CloudflareKVAdaptor implements StorageAdaptor {
     this.namespace = namespace;
   }
 
+  async findNamespace(namespace: string, page = 1): Promise<ListNamespacesResponse["result"][0]> {
+    // Search through all pages of the `listNamespaces` response to find the desired namespace
+    let namespacesResponse = await this.cloudflareKV.listNamespaces({
+      direction: "asc",
+      order: "title",
+      page,
+    });
+
+    if (!namespacesResponse.ok) {
+      let namespacesPayload = {
+        errors: [{ code: 0, message: "unknown" }],
+      };
+      try {
+        namespacesPayload = await namespacesResponse.json() as { errors: Array<{ code: number; message: string }> };
+      } catch (err) {
+        // noop
+      }
+      throw new Error(
+        `Unable to list namespaces: ${namespacesResponse.statusText}\n\n${JSON.stringify(namespacesPayload, null, 2)}`,
+      );
+    }
+
+    let namespacesResult: Partial<ListNamespacesResponse> = {};
+    try {
+      namespacesResult = await namespacesResponse.json() as ListNamespacesResponse;
+    } catch (err) {
+      // noop
+    }
+    if (!namespacesResult.result || !namespacesResult.result.length) {
+      throw new Error("Unable to find namespaces in the response");
+    }
+    let namespaceData = namespacesResult.result.find((ns) => ns.title === namespace);
+
+    if (namespaceData) {
+      return namespaceData;
+    }
+    if (namespacesResult.result_info && page < namespacesResult.result_info.total_pages) {
+      return this.findNamespace(namespace, page + 1);
+    }
+    throw new Error(`Unable to find namespace: ${namespace}`);
+  }
+
   async init() {
     if (this.initialized) {
       return;
     }
+    // Attempt to create the namespace first - if it fails then fallback to getting the list of namespaces, and retrying until we find the right one
+    // Cloudflare returns an error with a code of: 10014 (at the time of writing / with this version of the API) when we are attempting to create a
+    // namespace that already exists.
     let response = await this.cloudflareKV.createNamespace({
       title: this.namespace,
     });
@@ -370,7 +426,15 @@ export class CloudflareKVAdaptor implements StorageAdaptor {
       } catch (err) {
         // noop
       }
-      throw new Error(`Unable to create namespace: ${response.statusText}\n\n${JSON.stringify(payload, null, 2)}`);
+      if (!payload.errors.every((error) => error.code === 10014)) {
+        throw new Error(`Unable to create namespace: ${response.statusText}\n\n${JSON.stringify(payload, null, 2)}`);
+      }
+      // Now try listing the namespaces until we find the desired one!
+      // This will throw if we get back bad data / errors, letting it do so will allow the error to bubble up
+      let namespacesResponse = await this.findNamespace(this.namespace, 1);
+      this.namespaceID = namespacesResponse.id;
+      this.initialized = true;
+      return;
     }
     let data = await response.json() as unknown as {
       errors: Array<{
