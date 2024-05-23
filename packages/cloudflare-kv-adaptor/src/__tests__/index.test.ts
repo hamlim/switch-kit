@@ -404,6 +404,95 @@ describe("CloudflareKVAdaptor", () => {
     expect(consoleErrors[0]).toMatch(/Failed to initialize SwitchKit client/);
   });
 
+  test("switchKit.init with an existing namespace", async () => {
+    let count = 0;
+    function getStubNamespaces(length: number) {
+      return Array.from({ length }, () => {
+        return {
+          id: `${count++}`.padStart(10, "0"),
+          title: `some-namespace-${Math.random() * 1000}`,
+          supports_url_encoding: true,
+        };
+      });
+    }
+    let kvNamespaces = [
+      ...getStubNamespaces(150),
+      {
+        id: "123456789",
+        title: "my-namespace",
+        supports_url_encoding: true,
+      },
+      ...getStubNamespaces(150),
+    ];
+
+    let requests: Array<{ input: string | Request | URL; init?: RequestInit }> = [];
+    async function mockFetch(input: string | Request | URL, init?: RequestInit): Promise<Response> {
+      requests.push({ input, init });
+      if (input.toString().includes("namespaces") && init?.method === "POST") {
+        return new Response(
+          JSON.stringify({
+            result: null,
+            success: false,
+            errors: [
+              {
+                code: 10014,
+                message: "create namespace: 'a namespace with this account ID and title already exists'",
+              },
+            ],
+            messages: [],
+          }),
+          {
+            status: 400,
+          },
+        );
+      }
+      if (input.toString().includes("namespaces") && init?.method === "GET") {
+        let requestURL = new URL(input.toString());
+        let page = requestURL.searchParams.get("page") || "1";
+        let start = (Number(page) - 1) * 20;
+        let end = start + 20;
+        return new Response(
+          JSON.stringify({
+            result: kvNamespaces.slice(start, end),
+            success: true,
+            errors: [],
+            messages: [],
+            result_info: {
+              page: Number(page),
+              per_page: 20,
+              count: kvNamespaces.length,
+              total_count: kvNamespaces.length,
+              total_pages: Math.ceil(kvNamespaces.length / 20),
+            },
+          }),
+          {
+            status: 200,
+          },
+        );
+      }
+      return new Response(JSON.stringify({}), { status: 500 });
+    }
+    let client = new SwitchKit({
+      adaptor: new CloudflareKVAdaptor({
+        namespace: "my-namespace",
+        accountID: "account-id",
+        authToken: "auth-token",
+        fetch: mockFetch as unknown as typeof globalThis.fetch,
+      }),
+    });
+
+    await client.init();
+
+    expect(client.initialized).toBe(true);
+
+    let numOfRequests = requests.length;
+
+    await client.init();
+
+    // Didn't make any more requests
+    expect(requests.length).toBe(numOfRequests);
+  });
+
   test("switchKit.get", async () => {
     let requests: Array<{ input: string | Request | URL; init?: RequestInit }> = [];
     async function mockFetch(input: string | Request | URL, init?: RequestInit): Promise<Response> {
