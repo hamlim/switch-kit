@@ -299,7 +299,10 @@ describe("CloudflareKV", () => {
       "https://api.cloudflare.com/client/v4/accounts/account-id/storage/kv/namespaces/namespace-id/values/key!%3A",
     );
     expect(requests[0].init?.method).toBe("PUT");
-    expect(requests[0].init?.body).toBe(JSON.stringify({ value: "value", metadata: { metadata: "value" } }));
+    let expectedBody = new FormData();
+    expectedBody.append("value", "value");
+    expectedBody.append("metadata", JSON.stringify({ metadata: "value" }));
+    expect(requests[0].init?.body).toStrictEqual(expectedBody);
   });
 });
 

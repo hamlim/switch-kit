@@ -1,5 +1,10 @@
 ### Unreleased:
 
+### [0.1.2] - June 3rd, 2024
+
+- Fix `CloudflareKVAdaptor.set`/`CloudflareKV.writeKeyWithMetadata` not properly encoding the request body
+  - Previously, we sent the request body as stringified JSON but Cloudflare expects form data. This has been fixed and the request body is now properly encoded as form data.
+
 ### [0.1.1] - May 23rd, 2024
 
 - Fix `init` not working when the namespace already exists

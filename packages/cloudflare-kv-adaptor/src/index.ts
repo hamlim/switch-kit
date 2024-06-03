@@ -293,14 +293,20 @@ export class CloudflareKV {
     value,
     metadata,
   }: WriteKeyWithMetadataOptions): Promise<Response> {
+    let body = new FormData();
+    body.append("value", value);
+    body.append("metadata", JSON.stringify(metadata));
     return this.fetch(
       `${this.apiBaseURL}/accounts/${this.accountID}/storage/kv/namespaces/${namespaceID}/values/${
         encodeURIComponent(key)
       }`,
       {
         method: "PUT",
-        body: JSON.stringify({ value, metadata }),
-        headers: this.baseRequestHeaders,
+        body,
+        headers: new Headers({
+          ...this.baseRequestHeaders,
+          "Content-Type": "multipart/form-data",
+        }),
       },
     );
   }

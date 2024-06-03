@@ -11,7 +11,7 @@
 		"url": "https://github.com/hamlim/switch-kit",
 		"directory": "packages/cloudflare-kv-adaptor"
 	},
-  "version": "0.1.1",
+  "version": "0.1.2",
   "exports": {
     ".": {
       "import": "./dist/index.js",
