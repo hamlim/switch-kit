@@ -304,7 +304,7 @@ export class CloudflareKV {
         method: "PUT",
         body,
         headers: new Headers({
-          ...this.baseRequestHeaders,
+          Authorization: `Bearer ${this.authToken}`,
           "Content-Type": "multipart/form-data",
         }),
       },

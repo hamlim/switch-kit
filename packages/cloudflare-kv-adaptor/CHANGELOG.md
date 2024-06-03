@@ -1,5 +1,9 @@
 ### Unreleased:
 
+### [0.1.3] - June 3rd, 2024
+
+- Fix `CloudflareKVAdaptor.set`/`CloudflareKV.writeKeyWithMetadata` not passing the cloudflare auth token properly
+
 ### [0.1.2] - June 3rd, 2024
 
 - Fix `CloudflareKVAdaptor.set`/`CloudflareKV.writeKeyWithMetadata` not properly encoding the request body
