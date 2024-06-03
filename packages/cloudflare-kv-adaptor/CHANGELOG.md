@@ -1,5 +1,10 @@
 ### Unreleased:
 
+### [0.1.4] - June 3rd, 2024
+
+- Fix `CloudflareKVAdaptor.set`/`CloudflareKV.writeKeyWithMetadata` incorrect request headers
+  - removing explicit `Content-Type` header, letting the UA set it automatically
+
 ### [0.1.3] - June 3rd, 2024
 
 - Fix `CloudflareKVAdaptor.set`/`CloudflareKV.writeKeyWithMetadata` not passing the cloudflare auth token properly

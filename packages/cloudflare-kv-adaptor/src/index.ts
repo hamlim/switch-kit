@@ -305,7 +305,6 @@ export class CloudflareKV {
         body,
         headers: new Headers({
           Authorization: `Bearer ${this.authToken}`,
-          "Content-Type": "multipart/form-data",
         }),
       },
     );
