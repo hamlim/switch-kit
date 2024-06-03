@@ -299,6 +299,10 @@ describe("CloudflareKV", () => {
       "https://api.cloudflare.com/client/v4/accounts/account-id/storage/kv/namespaces/namespace-id/values/key!%3A",
     );
     expect(requests[0].init?.method).toBe("PUT");
+    // @ts-expect-error - it doesn't know that headers is a Headers object
+    expect(requests[0].init?.headers?.get("content-type")).toBe("multipart/form-data");
+    // @ts-expect-error - it doesn't know that headers is a Headers object
+    expect(requests[0].init?.headers?.get("authorization")).toBe("Bearer auth-token");
     let expectedBody = new FormData();
     expectedBody.append("value", "value");
     expectedBody.append("metadata", JSON.stringify({ metadata: "value" }));
