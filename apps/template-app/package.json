@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.3.0-canary.61"
+    "next": "16.1.5"
   },
   "devDependencies": {
     "@types/node": "20.12.12",
